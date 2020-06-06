@@ -1,19 +1,36 @@
 package com.wenpd.thread;
 
 import com.wenpd.thread.callable.MyCallAble;
+import com.wenpd.thread.domo.CountNum;
 
 import java.util.concurrent.*;
 
 public class TestMainj {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        FutureTask<String> task = new FutureTask<String>(new MyCallAble());
 
-        Thread thread = new Thread(task, "myCallAble");
-        thread.start();
+        final CountNum countNum = new CountNum();
 
-        String result = task.get();
-        System.out.println("执行结果：" +result);
+        Thread thread1 = new Thread(new Runnable() {
+            public void run() {
+                countNum.one();
+            }
+        });
+
+        Thread thread2 = new Thread(new Runnable() {
+            public void run() {
+                countNum.two();
+            }
+        });
+        Thread thread3 = new Thread(new Runnable() {
+            public void run() {
+                countNum.three();
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+        thread3.start();
 
     }
 
